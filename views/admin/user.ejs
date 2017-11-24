@@ -1,0 +1,44 @@
+<% include adminHeader.ejs %>
+
+    <script>
+        $('.navbar-nav>li').removeClass();
+        $('.navbar-nav>li').eq(1).addClass('active');
+    </script>
+    <div class="jumbotron">
+        <h1>Hello, user !</h1>
+        <p>...</p>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover" style="text-align:center;">
+            <tr>
+                <th class="active">#</th>
+                <th class="success">姓名</th>
+                <th class="warning">注册时间</th>
+                <th class="danger">最近登录时间</th>
+                <th class="info">删除</th>
+            </tr>
+            <% if(userList.length > 0){ %>
+                <% userList.forEach(function(user,i){ %>
+                    <tr>
+                        <td class="active">
+                            <%= (limit*page+i+1) %>
+                        </td>
+                        <td class="success">
+                            <%= user.username %>
+                        </td>
+                        <td class="warning">
+                            <%= moment(user.createAt).format('lll') %>
+                        </td>
+                        <td class="danger">
+                            <%= moment(user.lastLoginAt).format('lll') %>
+                        </td>
+                        <td class="info">删除</td>
+                    </tr>
+                    <% }) %>
+                        <% }else{ %>
+                            <h2 class="warning">还没有用户哦</h2>
+                            <% } %>
+        </table>
+    </div>
+    <% include ../include/pageDivide.ejs %>
+    <% include ../include/footer.ejs %>

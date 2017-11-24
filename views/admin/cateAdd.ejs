@@ -1,0 +1,41 @@
+<% include adminHeader.ejs %>
+
+    <script>
+        $('.navbar-nav>li').removeClass();
+        $('.navbar-nav>li').eq(2).addClass('active');
+    </script>
+    <div class="jumbotron">
+        <h1>新加点分类吧</h1>
+        <p>...</p>
+    </div>
+    <form>
+        <div class="form-group">
+                <label for="cateName">类型名称</label>
+                <input type="text" class="form-control" id="cateName" placeholder="请输入新增类型">
+              </div>
+              
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"> Check me out
+                </label>
+              </div>
+              <div class="submit btn btn-success">Submit</div>
+    </form>
+    <script>
+        $('.submit').click(function() {
+            $.ajax({
+                type: 'post',
+                url: '/admin/cate/add',
+                dataType: 'json',
+                data: {catename: $('#cateName').val()},
+                success: function(res) {
+                    if (!res.success) {
+                        alert(res.msg);
+                    }else{
+                        location.href="/admin/cate/list"
+                    }
+                }
+            })
+        })
+    </script>
+    <% include ../include/footer.ejs %>

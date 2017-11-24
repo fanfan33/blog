@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %> - blog</title>
+        <% include ../include/head.ejs %>
+</head>
+
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- header -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#" style="padding:2px 15px 0;">
+          <img style="width:45px;height:45px" alt="Brand" src="/images/admin/header.jpg">
+        </a>
+      </div>
+      <!-- header-content -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="/admin">首页 <span class="sr-only">(current)</span></a></li>
+              <li><a href="/admin/user">用户管理</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">分类管理 <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/admin/cate/add">新增分类</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="/admin/cate/list">所有分类</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+           
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#">Link</a></li>
+              
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </div>
+  </nav>
+ 
+  <div id="container" class="container">

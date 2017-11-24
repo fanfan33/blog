@@ -1,0 +1,159 @@
+<% include ../include/header.ejs %>
+    <style>
+        .panel-heading h3 {
+            float: left;
+        }
+
+        .panel-heading .toRight {
+            float: right;
+        }
+    </style>
+
+    <div class="jumbotron col-sm-7" data-anijs="if: mouseover, do: swing animated">
+        <h1>Hello, world!</h1>
+        <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or
+            information.
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </p>
+    </div>
+    <% if (user.userId) { %>
+        <div class="jumbotron col-sm-5 online">
+            <h2>Hello,
+                <span>
+                    <%= user.username %>
+                </span>
+            </h2>
+            <% if(user.isAdmin){ %>
+                <p>尊敬的vip用户</p>
+                <% }else{ %>
+                    <p>welcome to my blog ! hahaha</p>
+                    <% } %>
+
+        </div>
+        <% }else{ %>
+            <div class="col-sm-4" id="signin">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title">登录</h3>
+                        <p data-anijs="if:click, do: hinge animated, to: #signin" class="toRight toRegister">注册
+                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+                        </p>
+                    </div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="username">username</label>
+                                <input type="text" class="form-control" id="username" placeholder="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="Password">
+                            </div>
+                            <div class="btnCenter">
+                                <div class="btn btn-default signin">Submit</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4" id="signup" style="display:none">
+                <div class=" panel panel-primary">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title">注册</h3>
+                        <p data-anijs="if:click, do: hinge animated, to: #signup" class="toRight toLogin">登录
+                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+                        </p>
+                    </div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="user">username</label>
+                                <input type="text" class="form-control" id="user" placeholder="user">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password</label>
+                                <input type="password" class="form-control" id="pwd" placeholder="pwd">
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Check me out
+                                </label>
+                            </div>
+                            <div class="btnCenter">
+                                <div class="btn btn-default signup">Submit</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+
+                <script src="/libs/AniJS/dist/anijs.js"></script>
+                <% include ../include/footer.ejs %>
+                    <script>
+                        $('.toRegister').click(function () {
+                            setTimeout(function () {
+                                $('#signup').fadeIn().attr('class', 'col-sm-4');
+                                $("#signin").hide();
+                            }, 1500)
+
+                        })
+                        $('.toLogin').click(function () {
+                            setTimeout(function () {
+                                $('#signin').show().attr('class', 'col-sm-4');
+                                $("#signup").hide();
+                            }, 1500)
+                        })
+                        $('.signup').click(function () {
+                            var data = {};
+                            var url;
+                            data.username = $('#user').val();
+                            data.password = $('#pwd').val();
+                            url = '/api/register';
+
+                            $.ajax({
+                                type: 'post',
+                                data: data,
+                                cache: false,
+                                dataType: 'json',
+                                url: url,
+                                success: function (res) {
+                                    console.log(res);
+                                    if (!res.success) {
+                                        alert(res.msg);
+                                    } else {
+                                        console.log('注册成功');
+                                        window.location.reload();
+                                    }
+                                }
+                            })
+                        })
+                        $('.signin').click(function () {
+                            var data = {};
+                            var url;
+
+                            data.username = $('#username').val();
+                            data.password = $('#password').val();
+                            url = '/api/login';
+
+                            $.ajax({
+                                type: 'post',
+                                data: data,
+                                cache: false,
+                                dataType: 'json',
+                                url: url,
+                                success: function (res) {
+                                    console.log(res);
+                                    if (!res.success) {
+                                        alert(res.msg);
+                                    } else {
+                                        console.log('登陆成功');
+                                        window.location.reload();
+                                    }
+                                }
+                            })
+                        })
+                    </script>

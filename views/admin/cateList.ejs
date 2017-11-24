@@ -1,0 +1,44 @@
+<% include adminHeader.ejs %>
+
+    <script>
+        $('.navbar-nav>li').removeClass();
+        $('.navbar-nav>li').eq(2).addClass('active');
+    </script>
+    <div class="jumbotron">
+        <h1>分类列表</h1>
+        <p>...</p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>类别</th>
+                        <th>更新入时间</th>
+                        <th>查看</th>
+                        <th>更新</th>
+                        <th>删除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(catelist.length > 0) { %>
+                        <% catelist.forEach(function(cate, i){ %>
+                            <tr class="item-id-<%=cate._id  %>">
+                                <td><%= i %></td>
+                                <td><%= cate.name %></td>
+                                <td><%= moment(cate.meta.updateAt).format('LL') %></td>
+                                <td><a target="_black" href="/admin/cate/<%=cate._id %>">查看</a></td>
+                                <td><a target="_black" href="/admin/update/<%=cate._id %>">修改</a></td>
+                                <td><button class="btn btn-danger del catetory" disabled="disabled" data-id="<%=cate._id%>">删除</button></td>
+                            </tr>
+                        <% }) %>
+                    <% }else{ %>
+                        <tr><td colspan="6">不存在的</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <% include ../include/footer.ejs %>
