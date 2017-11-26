@@ -1,8 +1,13 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
 
 var categorySchema = new Schema({
     name: String,
+    contents: [{
+        type: ObjectId,
+        ref: 'Content'
+    }],
     meta: {
         createAt: {
             type: Date,

@@ -25,12 +25,12 @@
                     <% if(catelist.length > 0) { %>
                         <% catelist.forEach(function(cate, i){ %>
                             <tr class="item-id-<%=cate._id  %>">
-                                <td><%= i %></td>
+                                <td><%= i+1 %></td>
                                 <td><%= cate.name %></td>
                                 <td><%= moment(cate.meta.updateAt).format('LL') %></td>
                                 <td><a target="_black" href="/admin/cate/<%=cate._id %>">查看</a></td>
-                                <td><a target="_black" href="/admin/update/<%=cate._id %>">修改</a></td>
-                                <td><button class="btn btn-danger del catetory" disabled="disabled" data-id="<%=cate._id%>">删除</button></td>
+                                <td><a target="_black" href="/admin/cate/update/<%=cate._id %>">修改</a></td>
+                                <td><button class="btn btn-xs btn-danger delCate" data-id="<%=cate._id%>">删除</button></td>
                             </tr>
                         <% }) %>
                     <% }else{ %>
@@ -40,5 +40,5 @@
             </table>
         </div>
     </div>
-    
+    <script src="/build/js/adminDel.min.js"></script>
     <% include ../include/footer.ejs %>

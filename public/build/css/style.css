@@ -19,6 +19,12 @@ p {
 .pageDivide {
   text-align: center;
 }
+.empty {
+  width: 100%;
+  height: 1px;
+  background-color: transparent;
+  margin-bottom: 60px;
+}
 .clearfix {
   overflow: auto;
   _height: 1%;
@@ -27,7 +33,7 @@ p {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  position: absolute;
+  position: fixed;
   background-color: #efefef;
   bottom: 0;
   text-align: center;

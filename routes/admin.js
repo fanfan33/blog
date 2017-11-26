@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/users')
 var Cate = require('../models/category')
+var Content = require('../models/content')
 
 router.use(function (req, res, next) {
   if (!req.user.isAdmin) {
@@ -16,7 +17,7 @@ router.get('/', function (req, res, next) {
     title: '管理员'
   });
 });
-
+//用户列表
 router.get('/user', function (req, res, next) {
   User.count(function (err, count) {
     var page = parseInt(req.query.page) || 0;
@@ -38,6 +39,18 @@ router.get('/user', function (req, res, next) {
       })
   })
 });
+//用户删除
+router.delete('/user/del', function(req, res) {
+  var id = req.query.id;
+  if (id) {
+    User.remove({_id: id}, function(err){
+      if (err) {
+        console.log(err);
+      }
+      res.json({success: true})
+    })
+  }
+})
 //分类
 router.post('/cate/add', function (req, res, next) {
   var catename = req.body.catename;
@@ -72,14 +85,75 @@ router.get('/cate/add', function (req, res, next) {
 // 列表
 router.get('/cate/list', function (req, res, next) {
   Cate.fetch(function(err, catelist){
-    console.log(catelist)
     res.render('admin/cateList', {
       title: '所有分类',
       catelist: catelist
     })
   })
-  
 });
 
+//分类查看 具体的
+router.get('/cate/:id', function(req, res) {
+  var id = req.query.id;
+})
+
+//更新分类
+router.get('/cate/update/:id', function(req, res) {
+  var id = req.query.id;
+})
+//删除分类
+router.delete('/cate/del', function(req, res) {
+  var id = req.query.id;
+  if (id) {
+    Cate.remove({_id: id}, function(err){
+      if (err) {
+        console.log(err);
+      }
+      res.json({success: true})
+    })
+  }
+})
+
+//内容聚集地
+router.get('/content/add',function(req, res) {
+  Cate.fetch(function(err, cates) {
+    res.render('admin/contentAdd', {
+      title: '内容新增',
+      cates: cates
+    })
+  })
+})
+
+router.post('/content/add', function(req, res) {
+  var box = req.body.con;
+  var cateId = box.cate;
+  console.log(box);
+
+  var newInfo = new Content(box);
+  newInfo.save(function(err, _box) {
+    Cate.findOne({_id: cateId}, function(err, cate){
+      console.log(cate);
+      cate.contents.push(_box._id);
+      cate.save(function(err){
+        if (err) {
+          console.log(err);
+        }
+        res.redirect('/admin/content/list');
+      })
+    })
+  })
+
+
+
+})
+
+router.get('/content/list', function(req, res) {
+  Cate.fetch(function(err, cates) {
+    res.render('admin/contentList', {
+      title: '内容列表',
+      cates: cates
+    })
+  })
+})
 
 module.exports = router;

@@ -9,7 +9,7 @@
         }
     </style>
 
-    <div class="jumbotron col-sm-7" data-anijs="if: mouseover, do: swing animated">
+    <div class="jumbotron col-sm-7" data-anijs="if: mouseleave, do: swing animated">
         <h1>Hello, world!</h1>
         <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or
             information.
@@ -22,7 +22,7 @@
         <div class="jumbotron col-sm-5 online">
             <h2>Hello,
                 <span>
-                    <%= user.username %>
+                    <%= decodeURI(user.username) %>
                 </span>
             </h2>
             <% if(user.isAdmin){ %>

@@ -19,7 +19,7 @@
             </tr>
             <% if(userList.length > 0){ %>
                 <% userList.forEach(function(user,i){ %>
-                    <tr>
+                    <tr class="item-id-<%= user._id %>">
                         <td class="active">
                             <%= (limit*page+i+1) %>
                         </td>
@@ -32,7 +32,9 @@
                         <td class="danger">
                             <%= moment(user.lastLoginAt).format('lll') %>
                         </td>
-                        <td class="info">删除</td>
+                        <td class="info">
+                            <button class="btn btn-xs btn-danger delUser" data-id="<%=user._id%>">删除</button>
+                        </td>
                     </tr>
                     <% }) %>
                         <% }else{ %>
@@ -41,4 +43,5 @@
         </table>
     </div>
     <% include ../include/pageDivide.ejs %>
+    <script src="/build/js/adminDel.min.js"></script>
     <% include ../include/footer.ejs %>

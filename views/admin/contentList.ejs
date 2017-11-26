@@ -1,0 +1,42 @@
+<% include adminHeader.ejs %>
+
+    <script>
+        $('.navbar-nav>li').removeClass();
+        $('.navbar-nav>li').eq(3).addClass('active');
+    </script>
+    <div class="jumbotron">
+        <h1>内容列表</h1>
+        <p>...</p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="list-group col-sm-3">
+                <% cates.forEach(function(cate){ %>
+                    <a href="#" class="list-group-item">
+                            <%= cate.name %>
+                        <span class="badge"><%= cate.contents.length || 0 %></span>
+                    </a>
+                <% }) %>
+                
+            </div>
+            <div class="col-sm-8">
+                <table class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>更新时间</th>
+                                <th>查看</th>
+                                <th>更新</th>
+                                <th>删除</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+            </div>
+            
+        </div>
+    </div>
+    <script src="/build/js/adminDel.min.js"></script>
+    <% include ../include/footer.ejs %>

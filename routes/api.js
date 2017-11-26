@@ -24,8 +24,9 @@ router.post('/register', function(req, res, next) {
                 if(err){console.log(err)}
                 req.cookies.set('user',JSON.stringify({
                     userId: resUser._id,
-                    username: resUser.username
-               }))
+                    username: encodeURI(resUser.username),
+                    // username: resUser.username
+                }))
                 res.json({success:true})
             })
         }

@@ -13,4 +13,9 @@ router.get('/', function(req, res, next) {
   })
   
 });
+router.get('/logout', function(req, res, next) {
+  req.cookies.set('user',null);
+  res.redirect('/');
+  
+});
 module.exports = router;
