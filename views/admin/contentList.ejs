@@ -3,6 +3,8 @@
     <script>
         $('.navbar-nav>li').removeClass();
         $('.navbar-nav>li').eq(3).addClass('active');
+
+        
     </script>
     <div class="jumbotron">
         <h1>内容列表</h1>
@@ -11,19 +13,25 @@
     <div class="container">
         <div class="row">
             <div class="list-group col-sm-3">
-                <% cates.forEach(function(cate){ %>
-                    <a href="#" class="list-group-item">
-                            <%= cate.name %>
-                        <span class="badge"><%= cate.contents.length || 0 %></span>
+                <% cates.forEach(function(_cate,i){ %>
+                    <% if(_cate._id.toString() == $id.toString() || (i == 0 && !$id)){ %>
+                    <a href="/admin/content/list?id=<%= _cate._id %>" class="list-group-item active">
+                            <%= _cate.name %>
+                        <span class="badge"><%= _cate.contents.length || 0 %></span>
                     </a>
+                    <% }else{ %>
+                        <a href="/admin/content/list?id=<%= _cate._id %>" class="list-group-item">
+                            <%= _cate.name %>
+                            <span class="badge"><%= _cate.contents.length || 0 %></span>
+                        </a>
+                    <% } %>
                 <% }) %>
-                
             </div>
             <div class="col-sm-8">
                 <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>标题</th>
                                 <th>更新时间</th>
                                 <th>查看</th>
                                 <th>更新</th>
@@ -31,7 +39,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            <% if(cons.length>0){ %>
+                               <% cons.forEach(function(con){ %>
+                                <tr>
+                                        <td><%= con.title %></td>
+                                        <td><%= moment(con.meta.updateAt).format('lll') %></td>
+                                        <td>查看</td>
+                                        <td><a href="/admin/content/update/<%= con._id %>">修改</a></td>
+                                        <td><button class="btn btn-danger btn-xs">删除</button></td>
+                                    </tr>
+                               <% }) %>
+                            <% }else{ %>
+                                <tr>
+                                    <td colspan="5">不存在的</td>
+                                    
+                                </tr>
+                            <% } %>
                         </tbody>
                     </table>
             </div>

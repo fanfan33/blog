@@ -9,9 +9,13 @@
         <p>...</p>
     </div>
     <form>
-        <div class="form-group">
+        <% if(category._id){ %>
+            <input type="hidden" id="cateId" name="cateId" value="<%= category._id %>">
+        <% } %>
+            <div class="form-group">
                 <label for="cateName">类型名称</label>
-                <input type="text" class="form-control" id="cateName" placeholder="请输入新增类型">
+
+                <input type="text" class="form-control" id="cateName" value="<%= category.name %>" placeholder="请输入新增类型">
               </div>
               
               <div class="checkbox btnCenter">
@@ -30,7 +34,10 @@
                 type: 'post',
                 url: '/admin/cate/add',
                 dataType: 'json',
-                data: {catename: $('#cateName').val()},
+                data: {
+                    catename: $('#cateName').val(),
+                    cateId: $("#cateId").val()
+                },
                 success: function(res) {
                     if (!res.success) {
                         alert(res.msg);
