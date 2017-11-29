@@ -7,6 +7,7 @@ var contentSchema = new Schema({
         type: ObjectId,
         ref: 'Cate'
     },
+    author: String,
     title: String,
     desc: String,
     content: String,
@@ -17,11 +18,11 @@ var contentSchema = new Schema({
     meta: {
         createAt: {
             type: Date,
-            default1: Date.now()
+            default: Date.now()
         },
         updateAt: {
             type: Date,
-            default1: Date.now()
+            default: Date.now()
         }
     }
 })

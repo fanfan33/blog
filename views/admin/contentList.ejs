@@ -32,6 +32,7 @@
                         <thead>
                             <tr>
                                 <th>标题</th>
+                                <th>作者</th>
                                 <th>更新时间</th>
                                 <th>查看</th>
                                 <th>更新</th>
@@ -41,12 +42,13 @@
                         <tbody>
                             <% if(cons.length>0){ %>
                                <% cons.forEach(function(con){ %>
-                                <tr>
+                                <tr class="item-id-<%= con._id %>">
                                         <td><%= con.title %></td>
+                                        <td><%= con.author %></td>
                                         <td><%= moment(con.meta.updateAt).format('lll') %></td>
                                         <td>查看</td>
                                         <td><a href="/admin/content/update/<%= con._id %>">修改</a></td>
-                                        <td><button class="btn btn-danger btn-xs">删除</button></td>
+                                        <td><button class="btn btn-danger delContent btn-xs" data-id="<%=con._id%>">删除</button></td>
                                     </tr>
                                <% }) %>
                             <% }else{ %>

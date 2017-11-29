@@ -1,0 +1,19 @@
+<% include ../include/header.ejs %>
+<% if(cateContents.length > 0){ %>
+    <% cateContents.forEach(function(content){ %>
+        <div class="jumbotron col-sm-7">
+            <h2><%= content.title %></h2>
+            <p><%= content.desc %></p>
+            <p>
+                <a class="btn btn-primary btn-primary" href="/content/<%= content._id %>" role="button">Learn more</a>
+            </p>
+        </div>
+    <% }) %>
+<% }else{ %>
+    <div data-anijs="if: click, do: rubberBand animated" class="container" style="text-align:center;">
+        <img src="/images/page/unknow.jpg" alt=".不存在" class="img-thumbnail">    
+    </div> 
+<% } %>
+<script src="/libs/AniJS/dist/anijs.js"></script>
+<% include ../include/footer.ejs %>
+                

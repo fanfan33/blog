@@ -10,7 +10,7 @@
     </div>
     <form class="form-horizontal" method="post" action="/admin/content/add">
         <% if(con){ %>
-            <input type="hidden" name="con[_id]" value="<%= con._id %>">
+            <input type="hidden" name="con[id]" value="<%= con._id %>">
         <% } %>
         <div class="form-group">
             <label for="title" class="col-sm-2 control-label">分类：</label>
@@ -30,25 +30,25 @@
         <div class="form-group">
             <label for="title" class="col-sm-2 control-label">标题：</label>
             <div class="col-sm-9">
-                <input type="text" class="form-control" name="con[title]" value="<%= con.title %>" id="title" placeholder="请输入title">
+                <input required type="text" class="form-control" name="con[title]" value="<%= con.title %>" id="title" placeholder="请输入title">
             </div>
         </div>
         <div class="form-group">
             <label for="desc" class="col-sm-2 control-label">简介：</label>
             <div class="col-sm-9">
-                <input type="text" class="form-control" name="con[desc]" value="<%= con.desc %>" id="desc" placeholder="请输入desc">
+                <input required type="text" class="form-control" name="con[desc]" value="<%= con.desc %>" id="desc" placeholder="请输入desc">
             </div>
         </div>
         <div class="form-group">
             <label for="content" class="col-sm-2 control-label">内容：</label>
             <div class="col-sm-9">
-                <textarea rows="3" class="form-control" name="con[content]" id="content" placeholder="请输入content"><%= con.content %></textarea>
+                <textarea required rows="3" class="form-control" name="con[content]" id="content" placeholder="请输入content"><%= con.content %></textarea>
                 
             </div>
         </div>
         <div class="checkbox btnCenter">
             <label>
-                <input type="checkbox"> Check me out
+                <input required type="checkbox"> Check me out
             </label>
         </div>
         <div class="btnCenter">

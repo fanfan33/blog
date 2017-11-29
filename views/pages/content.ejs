@@ -1,0 +1,108 @@
+<% include ../include/header.ejs %>
+    <style>
+        ul>li {
+            display: inline;
+            margin-left: 5px;
+        }
+        .reply{
+            text-align: right;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+        .reply span{
+            color: darkgrey;
+            padding-right: 10px;
+        }
+    </style>
+    <div class="jumbotron">
+        <h1>
+            <%= content.title %>
+        </h1>
+        <ul>
+            <li>作者：
+                <%= content.author %>
+            </li>
+            <li>访问量：
+                <%= content.pv %>
+            </li>
+            <li>时间：
+                <%= moment(content.meta.updateAt).format('lll') %>
+            </li>
+        </ul>
+        <p>
+            <%= content.desc %>
+        </p>
+        <p>
+            <%= content.content %>
+        </p>
+    </div>
+    <div class=" col-sm-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">评论区</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="media-list">
+                        <% if( comment.length> 0) { %>
+                            <% comment.forEach(function(com) { %>
+                                <li class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img style="width:100px;" class="media-left" src="/images\page\lostHead.jpg" alt="lostHead">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><%= com.username %></h4>
+                                        <p><%= com.txt %></p>
+                                        <p class="reply"><span><%= moment(com.meta.createAt).format('lll') %></span><a href="#">回复</a></p>
+                                        <hr>
+                                        <!-- <div class="media">
+                                            <div class="media-left media-middle">
+                                                <a href="#">
+                                                    <img style="width:100px;" class="media-left" src="/images\page\lostHead.jpg" alt="...">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">Middle aligned media</h4>
+                                                ...
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </li>
+                                <hr>
+                            <% }) %>
+                        <% }else{ %>
+                            <p>快来抢沙发</p>
+                        <% } %>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">发表评论</div>
+            <div class="panel-body">
+                <form method="post" action="/api/commentAdd">
+                    <input type="hidden" name="comment[content]" value="<%= content._id %>">
+                    <div class="form-group">
+                        <label for="txt" class=" control-label">内容 *</label>
+                        <textarea required rows="3" class="form-control" name="comment[txt]" id="txt" placeholder="请输入内容"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="username" class=" control-label">姓名 *</label>
+                        <input type="text" class="form-control" name="comment[username]" id="username" placeholder="姓名" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class=" control-label">电子邮件 *</label>
+                        <input type="email" class="form-control" name="comment[email]" id="email" placeholder="email" required="required">
+                    </div>
+                    <div class="btnCenter">
+                        <input type="submit" class="submit btn btn-success" value="提交"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="/libs/AniJS/dist/anijs.js"></script>
+    <% include ../include/footer.ejs %>

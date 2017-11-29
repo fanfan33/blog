@@ -1,18 +1,22 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/users');
-
+var Comment = require('../models/comment');
 
 
 router.post('/register', function(req, res, next) {
     var params = req.body;
     var username = params.username;
     var pwd = params.password;
-
+    
+    if (!username || !pwd) {
+        return res.json({success: false, msg: '请输入具体信息'})
+    }
     User.findOne({username: username}, function(err, userInfo){
         if (err) {
             console.log(err);
         }
+        
         if (userInfo) {
             res.json({success: false, msg: '用户已存在'})
         } else {
@@ -64,4 +68,13 @@ router.post('/login', function(req, res, next) {
         }
     })
 });
+
+router.post('/commentAdd', function(req, res) {
+    var comInfo = req.body.comment;
+    var ConId = comInfo.content;
+    console.log(comInfo);
+    new Comment(comInfo).save(function(err, com) {
+        res.redirect('/content/'+ConId);
+    })
+})
 module.exports = router;

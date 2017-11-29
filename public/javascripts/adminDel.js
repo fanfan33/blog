@@ -7,6 +7,8 @@ $('.btn-danger').click(function() {
             url = '/admin/cate/del?id='+id
         }else if (classContain.indexOf('delUser') > -1) {
             url = '/admin/user/del?id='+id
+        }else if( classContain.indexOf('delContent') > -1){
+            url = '/admin/content/del?id='+id
         }
         $.ajax({
             type: 'delete',
@@ -15,6 +17,7 @@ $('.btn-danger').click(function() {
                 if (data.success) {
                     var tr = $('.item-id-'+id);
                     tr.remove();
+                    window.location.reload();
                 }
             }
         })

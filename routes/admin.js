@@ -151,20 +151,21 @@ router.get('/content/add',function(req, res) {
 //内容保存 及 更改后的保存
 router.post('/content/add', function(req, res) {
   var box = req.body.con;
-  if (box._id) {
+  box.author = decodeURI(req.user.username);
+  if (box.id) {
     //更新
-    Content.findOne({_id: box._id}, function(err, oldCon) {
+    Content.findOne({_id: box.id}, function(err, oldCon) {
       var _newInfo = underscore.extend(oldCon, box);
       new Content(_newInfo).save(function(err, content) {
         res.redirect('/admin/content/list');
       })
     })
-    
   } else {
     //新增
+    console.log(box)
     var cateId = box.cate;
-    var newInfo = new Content(box);
-    newInfo.save(function(err, _box) {
+    new Content(box).save(function(err, _box) {
+      console.log(_box)
       Cate.findOne({_id: cateId}, function(err, cate){
         console.log(cate);
         cate.contents.push(_box._id);
@@ -223,6 +224,33 @@ router.get('/content/update/:id', function(req, res) {
           con: con
         })
     })
+  }
+})
+//删除内容
+router.delete('/content/del', function(req, res) {
+  var id = req.query.id;
+  if (id) {
+
+    Content.findOne({_id: id}, function(err, con) {
+
+      Content.remove({_id: id}, function(err){
+        
+        Cate.findOne({_id: con.cate}, function(err, newcate) {
+          console.log(newcate)
+          var arr = newcate.contents;
+          for(var i=0; i<arr.length; i++) {
+            if(arr[i].toString() == id.toString()) {
+              arr.splice(i, 1);
+              
+              newcate.save(function(err){
+                res.json({success: true})
+              })
+            }
+          }
+        })
+      })
+    })
+    
   }
 })
 
