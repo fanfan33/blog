@@ -71,10 +71,31 @@ router.post('/login', function(req, res, next) {
 
 router.post('/commentAdd', function(req, res) {
     var comInfo = req.body.comment;
-    var ConId = comInfo.content;
-    console.log(comInfo);
-    new Comment(comInfo).save(function(err, com) {
-        res.redirect('/content/'+ConId);
-    })
+    console.log(comInfo)
+    var newCom = new Comment(comInfo);
+    
+    if (comInfo.cid) {
+        Comment.findOne({_id: comInfo.cid}, function(err, comfind){
+            var reply = {
+                from: comInfo.from,
+                to: comInfo.tid,
+                txt: comInfo.txt
+            }
+
+            comfind.reply.push(reply);
+            comfind.save(function(err, _comfind) {
+                // res.json({success: true, data: _comfind});
+                res.redirect('/content/'+comInfo._id)
+            })
+        })
+       
+    } else {
+        newCom.save(function(err, _newCom) {
+            // res.json({success: true, data: _newCom});
+            res.redirect('/content/'+comInfo._id)
+        })
+    }
+
+
 })
 module.exports = router;

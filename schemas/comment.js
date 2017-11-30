@@ -2,15 +2,24 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
-var contentSchema = new Schema({
-    content: {
+var CommentSchema = new Schema({
+    content: { type: ObjectId, ref: 'Content'},
+    from: {type: ObjectId, ref: 'Visitor'},
+    to: { type: ObjectId, ref: 'Visitor'},
+    reply: [{
+        from: {
+            type: ObjectId,
+            ref: 'Visitor'
+        },
+        to: {
+            type: ObjectId,
+            ref: 'Visitor'
+        },
+        txt: String
+    }],
+    headIcon: {
         type: ObjectId,
-        ref: 'Content'
-    },
-    username: String,
-    toname: {
-        type: String,
-        default: 'base'
+        ref: 'Users'
     },
     email: String,
     tele: Number,
@@ -23,5 +32,4 @@ var contentSchema = new Schema({
     }
 })
 
-
-module.exports = contentSchema;
+module.exports = CommentSchema;

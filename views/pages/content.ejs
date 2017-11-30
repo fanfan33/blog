@@ -14,7 +14,7 @@
             padding-right: 10px;
         }
     </style>
-    <div class="jumbotron">
+    <div class="jumbotron" conId="<%= content._id %>">
         <h1>
             <%= content.title %>
         </h1>
@@ -43,47 +43,59 @@
             </div>
             <div class="panel-body">
                 <ul class="media-list">
-                        <% if( comment.length> 0) { %>
-                            <% comment.forEach(function(com) { %>
-                                <li class="media">
-                                    <div class="media-left">
-                                        <a href="#">
-                                            <img style="width:100px;" class="media-left" src="/images\page\lostHead.jpg" alt="lostHead">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><%= com.username %></h4>
-                                        <p><%= com.txt %></p>
-                                        <p class="reply"><span><%= moment(com.meta.createAt).format('lll') %></span><a href="#">回复</a></p>
-                                        <hr>
-                                        <!-- <div class="media">
-                                            <div class="media-left media-middle">
-                                                <a href="#">
-                                                    <img style="width:100px;" class="media-left" src="/images\page\lostHead.jpg" alt="...">
-                                                </a>
+                    <% if( comment.length> 0) { %>
+                        <% comment.forEach(function(com) { %>
+                            <li class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img style="width:100px;" class="media-left" src="/images\page\lostHead.jpg" alt="lostHead">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><%= com.from.name %></h4>
+                                    <p><%= com.txt %></p>
+                                    <p class="reply">
+                                        <span><%= moment(com.meta.createAt).format('lll') %></span>
+                                        <a data-cid="<%= com._id %>" data-tid="<%= com.from.name %>" href="#form">回复</a>
+                                    </p>
+                                    <hr>
+                                    <% if( com.reply && com.length>0 ){ %>
+                                        <% com.reply.forEach(function(comReply){ %>
+                                            <div class="media">
+                                                <div class="media-left media-middle">
+                                                    <a href="#">
+                                                        <img style="width:100px;" class="media-left" src="/images\page\lostHead.jpg" alt="...">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">
+                                                            <%= comReply.from.name %> &nbsp<small class="text-info">回复</small>&nbsp <%= comReply.to.name %>
+                                                    </h4>
+                                                    <p><%= comReply.txt %></p>
+                                                    <p class="reply">
+                                                        <span><%= moment(com.meta.createAt).format('lll') %></span>
+                                                        <a data-cid="<%= com._id %>" data-tid="<%= com.from.name %>" href="#form">回复</a>
+                                                    </p>
+                                                    <hr>
+                                                </div>
                                             </div>
-                                            <div class="media-body">
-                                                <h4 class="media-heading">Middle aligned media</h4>
-                                                ...
-                                            </div>
-                                        </div> -->
-                                    </div>
-                                </li>
-                                <hr>
-                            <% }) %>
-                        <% }else{ %>
-                            <p>快来抢沙发</p>
-                        <% } %>
+                                        <% }) %>
+                                    <% } %>
+                                </div>
+                            </li>
+                            <hr>
+                        <% }) %>
+                        <div class="alert alert-info" style="text-align:center;" role="alert"><a href="#">加载更多</a></div>
+                    <% }else{ %>
+                        <p>快来抢沙发</p>
+                    <% } %>
                 </ul>
             </div>
         </div>
-
-
-
         <div class="panel panel-default">
             <div class="panel-heading">发表评论</div>
             <div class="panel-body">
-                <form method="post" action="/api/commentAdd">
+                <form id="form" action="/api/commentAdd" method="post">
                     <input type="hidden" name="comment[content]" value="<%= content._id %>">
                     <div class="form-group">
                         <label for="txt" class=" control-label">内容 *</label>
@@ -91,7 +103,7 @@
                     </div>
                     <div class="form-group">
                         <label for="username" class=" control-label">姓名 *</label>
-                        <input type="text" class="form-control" name="comment[username]" id="username" placeholder="姓名" required="required">
+                        <input type="text" class="form-control" name="comment[from]" id="username" placeholder="姓名" required="required">
                     </div>
                     <div class="form-group">
                         <label for="email" class=" control-label">电子邮件 *</label>
@@ -104,5 +116,57 @@
             </div>
         </div>
     </div>
+    <script>
+        $('.reply a').click(function(){
+            var cid = $(this).data('cid');
+            var tid = $(this).data('tid');
+
+            if ($('#toId').length > 0) {
+                $('#toId').val(tid);
+            }else{
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'toId',
+                    name: 'comment[tid]',
+                    value: tid
+                }).appendTo($('form'))
+            }
+
+            if ($('#commentId').length > 0) {
+                $('#commentId').val(cid);
+            } else {
+                $('input').attr({
+                    type: 'hidden',
+                    id: 'commentId',
+                    name: 'comment[cid]',
+                    value: cid
+                }).appendTo($('form'))
+            }
+        })
+
+        // $('.submit').click(function(){
+        //     var formData = $('form').serialize();
+        //     $.ajax({
+        //         type: 'post',
+        //         url: '/api/commentAdd',
+        //         data: formData,
+        //         dataType: 'json',
+        //         success: function(data){
+        //             console.log(data);
+
+        //         }
+        //     })
+        // })
+
+        // $.ajax({
+        //     type: 'get',
+        //     url: '/api/content/'+ $('.jumbotron').attr('.conId'),
+        //     dateType: 'json',
+        //     success: function(data){
+
+        //     }
+        // })
+    </script>
+
     <script src="/libs/AniJS/dist/anijs.js"></script>
     <% include ../include/footer.ejs %>
