@@ -48,33 +48,33 @@
                             <li class="media">
                                 <div class="media-left">
                                     <a href="#">
-                                        <img style="width:100px;" class="media-left" src="/images\page\lostHead.jpg" alt="lostHead">
+                                        <img style="width:80px;" class="media-left" src="/images\page\lostHead.jpg" alt="lostHead">
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading"><%= com.from.name %></h4>
+                                    <h4 class="media-heading"><%= com.from %></h4>
                                     <p><%= com.txt %></p>
                                     <p class="reply">
                                         <span><%= moment(com.meta.createAt).format('lll') %></span>
-                                        <a data-cid="<%= com._id %>" data-tid="<%= com.from.name %>" href="#form">回复</a>
+                                        <a data-cid="<%= com._id %>" data-tid="<%= com.from %>" href="#form">回复</a>
                                     </p>
                                     <hr>
-                                    <% if( com.reply && com.length>0 ){ %>
+                                    <% if( com.reply  ){ %>
                                         <% com.reply.forEach(function(comReply){ %>
                                             <div class="media">
                                                 <div class="media-left media-middle">
                                                     <a href="#">
-                                                        <img style="width:100px;" class="media-left" src="/images\page\lostHead.jpg" alt="...">
+                                                        <img style="width:80px;" class="media-left" src="/images\page\lostHead.jpg" alt="...">
                                                     </a>
                                                 </div>
                                                 <div class="media-body">
                                                     <h4 class="media-heading">
-                                                            <%= comReply.from.name %> &nbsp<small class="text-info">回复</small>&nbsp <%= comReply.to.name %>
+                                                            <%= comReply.from %> &nbsp<small class="text-info">回复</small>&nbsp <%= comReply.to %>
                                                     </h4>
                                                     <p><%= comReply.txt %></p>
                                                     <p class="reply">
                                                         <span><%= moment(com.meta.createAt).format('lll') %></span>
-                                                        <a data-cid="<%= com._id %>" data-tid="<%= com.from.name %>" href="#form">回复</a>
+                                                        <a data-cid="<%= com._id %>" data-tid="<%= com.reply.from %>" href="#form">回复</a>
                                                     </p>
                                                     <hr>
                                                 </div>
@@ -124,23 +124,15 @@
             if ($('#toId').length > 0) {
                 $('#toId').val(tid);
             }else{
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'toId',
-                    name: 'comment[tid]',
-                    value: tid
-                }).appendTo($('form'))
+                var input = $('<input type="hidden" id="toId" name="comment[tid]" value="'+tid+'" >')
+                $('#form').append(input);
             }
 
             if ($('#commentId').length > 0) {
                 $('#commentId').val(cid);
             } else {
-                $('input').attr({
-                    type: 'hidden',
-                    id: 'commentId',
-                    name: 'comment[cid]',
-                    value: cid
-                }).appendTo($('form'))
+                var _input = $('<input type="hidden" id="commentId" name="comment[cid]" value="'+cid+'" >')
+                $('#form').append(_input);
             }
         })
 

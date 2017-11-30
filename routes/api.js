@@ -71,9 +71,8 @@ router.post('/login', function(req, res, next) {
 
 router.post('/commentAdd', function(req, res) {
     var comInfo = req.body.comment;
-    console.log(comInfo)
     var newCom = new Comment(comInfo);
-    
+    console.log(comInfo);
     if (comInfo.cid) {
         Comment.findOne({_id: comInfo.cid}, function(err, comfind){
             var reply = {
@@ -85,14 +84,15 @@ router.post('/commentAdd', function(req, res) {
             comfind.reply.push(reply);
             comfind.save(function(err, _comfind) {
                 // res.json({success: true, data: _comfind});
-                res.redirect('/content/'+comInfo._id)
+                res.redirect('/content/'+comInfo.content)
             })
         })
        
     } else {
         newCom.save(function(err, _newCom) {
+            console.log(_newCom)
             // res.json({success: true, data: _newCom});
-            res.redirect('/content/'+comInfo._id)
+            res.redirect('/content/'+comInfo.content)
         })
     }
 

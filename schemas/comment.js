@@ -4,17 +4,11 @@ var ObjectId = Schema.Types.ObjectId;
 
 var CommentSchema = new Schema({
     content: { type: ObjectId, ref: 'Content'},
-    from: {type: ObjectId, ref: 'Visitor'},
-    to: { type: ObjectId, ref: 'Visitor'},
+    from: String,
+    to: String,
     reply: [{
-        from: {
-            type: ObjectId,
-            ref: 'Visitor'
-        },
-        to: {
-            type: ObjectId,
-            ref: 'Visitor'
-        },
+        from: String,
+        to: String,
         txt: String
     }],
     headIcon: {

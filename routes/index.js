@@ -37,10 +37,12 @@ router.get('/logout', function(req, res, next) {
 
 router.get('/content/:id', function(req, res) {
   var id = req.params.id;
+  console.log(id)
   var limit = 10;
   Cate.fetch(function(err,cates) {
+    console.log(cates)
     Content.findOne({_id: id}, function(err, content) {
-      // console.log(content);
+      console.log(content);
       Content.update({_id: id}, {$inc: {pv: 1}}, function(err){
 
         Comment.find({content: id})
