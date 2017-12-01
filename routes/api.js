@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/users');
 var Comment = require('../models/comment');
+var Content = require('../models/content')
 
 
 router.post('/register', function(req, res, next) {
@@ -51,7 +52,7 @@ router.post('/login', function(req, res, next) {
                 console.log(userInfo);
                req.cookies.set('user',JSON.stringify({
                     userId: userInfo._id,
-                    username: userInfo.username
+                    username: encodeURI(resUser.username),
                }))
                 res.json({
                     success: true,
@@ -71,31 +72,40 @@ router.post('/login', function(req, res, next) {
 
 router.post('/commentAdd', function(req, res) {
     var comInfo = req.body.comment;
-    var newCom = new Comment(comInfo);
-    console.log(comInfo);
-    if (comInfo.cid) {
+    
+    var endIndex = 15;
+    var randomNum = Math.round(Math.random()*(endIndex-1)+1);
+    var headIcon = 0;
+
+    if ( ! req.cookies.get('headIcon')) {
+        req.cookies.set('headIcon', randomNum);
+        headIcon = randomNum;
+    }else{
+        headIcon = req.cookies.get('headIcon')
+    }
+    
+    if (comInfo.cid) {          //处理回复
         Comment.findOne({_id: comInfo.cid}, function(err, comfind){
             var reply = {
                 from: comInfo.from,
                 to: comInfo.tid,
-                txt: comInfo.txt
+                txt: comInfo.txt,
+                headIcon: headIcon
             }
-
             comfind.reply.push(reply);
             comfind.save(function(err, _comfind) {
-                // res.json({success: true, data: _comfind});
                 res.redirect('/content/'+comInfo.content)
             })
         })
-       
-    } else {
-        newCom.save(function(err, _newCom) {
-            console.log(_newCom)
-            // res.json({success: true, data: _newCom});
-            res.redirect('/content/'+comInfo.content)
+    } else {                //当前新增
+        comInfo.headIcon = headIcon;
+        Comment.find({content: comInfo.content})
+        .exec( function(err, _com) {
+            var newCom = new Comment(comInfo);
+            newCom.save(function(err, _newCom) {
+                res.redirect('/content/'+comInfo.content)
+            })
         })
     }
-
-
 })
 module.exports = router;

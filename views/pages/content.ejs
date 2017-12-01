@@ -48,7 +48,7 @@
                             <li class="media">
                                 <div class="media-left">
                                     <a href="#">
-                                        <img style="width:80px;" class="media-left" src="/images\page\lostHead.jpg" alt="lostHead">
+                                        <img style="width:80px;" class="media-left" src="/images\headers\<%= com.headIcon %>.jpg" alt="lostHead">
                                     </a>
                                 </div>
                                 <div class="media-body">
@@ -62,9 +62,9 @@
                                     <% if( com.reply  ){ %>
                                         <% com.reply.forEach(function(comReply){ %>
                                             <div class="media">
-                                                <div class="media-left media-middle">
+                                                <div class="media-left">
                                                     <a href="#">
-                                                        <img style="width:80px;" class="media-left" src="/images\page\lostHead.jpg" alt="...">
+                                                        <img style="width:80px;" class="media-left" src="/images\headers\<%= comReply.headIcon %>.jpg" alt="...">
                                                     </a>
                                                 </div>
                                                 <div class="media-body">
@@ -73,8 +73,8 @@
                                                     </h4>
                                                     <p><%= comReply.txt %></p>
                                                     <p class="reply">
-                                                        <span><%= moment(com.meta.createAt).format('lll') %></span>
-                                                        <a data-cid="<%= com._id %>" data-tid="<%= com.reply.from %>" href="#form">回复</a>
+                                                        <span><%= moment(comReply.updateAt).format('lll') %></span>
+                                                        <a data-cid="<%= com._id %>" data-tid="<%= comReply.from %>" href="#form">回复</a>
                                                     </p>
                                                     <hr>
                                                 </div>
@@ -121,6 +121,8 @@
             var cid = $(this).data('cid');
             var tid = $(this).data('tid');
 
+            $('textarea').focus();
+
             if ($('#toId').length > 0) {
                 $('#toId').val(tid);
             }else{
@@ -134,30 +136,29 @@
                 var _input = $('<input type="hidden" id="commentId" name="comment[cid]" value="'+cid+'" >')
                 $('#form').append(_input);
             }
+
+            $("html, body").animate({
+                scrollTop: $($(this).attr("href")).offset().top + "px"
+            }, {
+                duration: 500,
+                easing: "swing"
+            });
+            return false;
         })
 
-        // $('.submit').click(function(){
-        //     var formData = $('form').serialize();
-        //     $.ajax({
-        //         type: 'post',
-        //         url: '/api/commentAdd',
-        //         data: formData,
-        //         dataType: 'json',
-        //         success: function(data){
-        //             console.log(data);
-
-        //         }
-        //     })
-        // })
-
-        // $.ajax({
-        //     type: 'get',
-        //     url: '/api/content/'+ $('.jumbotron').attr('.conId'),
-        //     dateType: 'json',
-        //     success: function(data){
-
-        //     }
-        // })
+        $('.submit').click(function(){
+            var obj = {
+                name: $('#username').val(),
+                email: $('#email').val()
+            }
+            window.sessionStorage.setItem('userbase', JSON.stringify(obj));
+            $(this).attr('disabled', true);
+        })
+        if (window.sessionStorage.getItem('userbase')) {
+            var _obj = JSON.parse(window.sessionStorage.getItem('userbase'));
+            $('#username').val(_obj.name);
+            $('#email').val(_obj.email);
+        }
     </script>
 
     <script src="/libs/AniJS/dist/anijs.js"></script>

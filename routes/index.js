@@ -37,21 +37,15 @@ router.get('/logout', function(req, res, next) {
 
 router.get('/content/:id', function(req, res) {
   var id = req.params.id;
-  console.log(id)
   var limit = 10;
   Cate.fetch(function(err,cates) {
-    console.log(cates)
     Content.findOne({_id: id}, function(err, content) {
-      console.log(content);
       Content.update({_id: id}, {$inc: {pv: 1}}, function(err){
 
         Comment.find({content: id})
           .sort({_id: -1})
           .limit(limit)
-          // .populate('from', 'username')
-          // .populate('reply.to reply.from', 'name')
           .exec(function(err, com) {
-            console.log(com)
             res.render('pages/content',{
               title: '详情页',
               catelist: cates,

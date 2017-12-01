@@ -9,12 +9,14 @@ var CommentSchema = new Schema({
     reply: [{
         from: String,
         to: String,
-        txt: String
+        txt: String,
+        headIcon: Number,
+        updateAt: {
+            type: Date,
+            default: Date.now()
+        }
     }],
-    headIcon: {
-        type: ObjectId,
-        ref: 'Users'
-    },
+    headIcon: Number,
     email: String,
     tele: Number,
     txt: String,
