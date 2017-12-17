@@ -15,7 +15,9 @@ var userSchema = new Schema({
     lastLoginAt:{
         type: Date,
         default: Date.now()
-    }
+    },
+    justTime: Number,
+    thisLoginAt: Date
 })
 
 module.exports = userSchema;

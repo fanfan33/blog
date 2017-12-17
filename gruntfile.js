@@ -34,8 +34,19 @@ module.exports = function(grunt) {
                     cleancss: true
                   },
                   files: {
-                    'public/build/css/style.css': 'public/stylesheets/style.less'
+                    'public/build/css/style.css': 'public/src/stylesheets/style.less'
                   }
+                }
+            },
+            cssmin: {
+                target: {
+                    files: [{
+                        expand: true,
+                        cwd: 'public/build/css',
+                        src: ['*.css','!*.min.css'],
+                        dest: 'public/build/cssmin',
+                        ext: '.min.css'
+                    }]
                 }
             },
             nodemon: {
@@ -57,7 +68,7 @@ module.exports = function(grunt) {
             },
             concurrent: {
                 dev: {
-                    tasks: ['nodemon', 'watch', 'uglify', 'less'],
+                    tasks: ['nodemon', 'watch', 'uglify', 'less', 'cssmin'],
                     options: {
                         logConcurrentOutput: true
                     }
@@ -67,6 +78,7 @@ module.exports = function(grunt) {
     
         grunt.loadNpmTasks('grunt-contrib-watch')
         grunt.loadNpmTasks('grunt-contrib-uglify')
+        grunt.loadNpmTasks('grunt-contrib-cssmin')
         grunt.loadNpmTasks('grunt-contrib-nodemon')     //实时监听入口app.js文件，实现自动重启
         grunt.loadNpmTasks('grunt-concurrent')      //优化慢任务的构建时间，比如sass,less，并发执行多个阻塞的任务,比如nodemon和watch
         grunt.loadNpmTasks('grunt-contrib-less')

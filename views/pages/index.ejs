@@ -1,4 +1,5 @@
 <% include ../include/header.ejs %>
+    
     <style>
         .panel-title{
             float: left;
@@ -6,8 +7,11 @@
         .toRight{
             float: right;
         }
+        .wow{
+            visibility: hidden;
+        }
     </style>
-    <div class="jumbotron col-sm-7" data-anijs="if: mouseleave, do: swing animated">
+    <div class="jumbotron col-sm-7 wow bounceInLeft" data-anijs="if: mouseleave, do: swing animated">
         <h2>Hello, world!</h2>
         <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or
             information.
@@ -16,82 +20,89 @@
             <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
         </p>
     </div>
-    <% if (user.userId) { %>
-        <div class="jumbotron col-sm-5 online">
-            <h2>Hello,
-                <span>
-                    <%= decodeURI(user.username) %>
-                </span>
-            </h2>
-            <% if(user.isAdmin){ %>
-                <p>尊敬的vip用户</p>
+    <div class="wow bounceInRight">
+            <% if (user.userId) { %>
+                <div class="jumbotron col-sm-5 online ">
+                    <h2>Hello,
+                        <span>
+                            <%= decodeURI(user.username) %>
+                        </span>
+                    </h2>
+                    <p>上次登录时间为：<%= new Date(user.justTime * 1000).getMinutes()  %>分钟前</p>
+                    <% if(user.isAdmin){ %>
+                        <p>尊敬的vip用户</p>
+                        
+                        <% }else{ %>
+                            <p>welcome to my blog ! hahaha</p>
+                            
+                            <% } %>
+        
+                </div>
                 <% }else{ %>
-                    <p>welcome to my blog ! hahaha</p>
+                    <div class="col-sm-4 " id="signin">
+                        <div class="panel panel-default">
+                            <div class="panel-heading clearfix">
+                                <h3 class="panel-title">登录</h3>
+                                <p data-anijs="if:click, do: hinge animated, to: #signin" class="toRight toRegister">注册
+                                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+                                </p>
+                            </div>
+                            <div class="panel-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="username">username</label>
+                                        <input type="text" class="form-control" id="username" placeholder="username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                    </div>
+                                    <div class="btnCenter">
+                                        <div class="btn btn-default signin" data-anijs="if: click, do: flip animated">Submit</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" id="signup" style="display:none">
+                        <div class=" panel panel-primary">
+                            <div class="panel-heading clearfix">
+                                <h3 class="panel-title">注册</h3>
+                                <p data-anijs="if:click, do: hinge animated, to: #signup" class="toRight toLogin">登录
+                                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+                                </p>
+                            </div>
+                            <div class="panel-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="user">username</label>
+                                        <input type="text" class="form-control" id="user" placeholder="user">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pwd">Password</label>
+                                        <input type="password" class="form-control" id="pwd" placeholder="pwd">
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Check me out
+                                        </label>
+                                    </div>
+                                    <div class="btnCenter">
+                                        <div class="btn btn-default signup">Submit</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     <% } %>
-
-        </div>
-        <% }else{ %>
-            <div class="col-sm-4" id="signin">
-                <div class="panel panel-default">
-                    <div class="panel-heading clearfix">
-                        <h3 class="panel-title">登录</h3>
-                        <p data-anijs="if:click, do: hinge animated, to: #signin" class="toRight toRegister">注册
-                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
-                        </p>
-                    </div>
-                    <div class="panel-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="username">username</label>
-                                <input type="text" class="form-control" id="username" placeholder="username">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Password">
-                            </div>
-                            <div class="btnCenter">
-                                <div class="btn btn-default signin" data-anijs="if: click, do: flip animated">Submit</div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4" id="signup" style="display:none">
-                <div class=" panel panel-primary">
-                    <div class="panel-heading clearfix">
-                        <h3 class="panel-title">注册</h3>
-                        <p data-anijs="if:click, do: hinge animated, to: #signup" class="toRight toLogin">登录
-                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
-                        </p>
-                    </div>
-                    <div class="panel-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="user">username</label>
-                                <input type="text" class="form-control" id="user" placeholder="user">
-                            </div>
-                            <div class="form-group">
-                                <label for="pwd">Password</label>
-                                <input type="password" class="form-control" id="pwd" placeholder="pwd">
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> Check me out
-                                </label>
-                            </div>
-                            <div class="btnCenter">
-                                <div class="btn btn-default signup">Submit</div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <% } %>
+    </div>
 
 
                 <script src="/libs/AniJS/dist/anijs.js"></script>
+                <script src="/build/js/wow.min.js"></script>
                 <% include ../include/footer.ejs %>
                     <script>
+                        new WOW().init();
                         $('.toRegister').click(function () {
                             setTimeout(function () {
                                 $('#signup').fadeIn().attr('class', 'col-sm-4');

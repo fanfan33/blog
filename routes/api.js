@@ -50,16 +50,25 @@ router.post('/login', function(req, res, next) {
         if (userInfo) {
             if (pwd == userInfo.password) {
                 console.log(userInfo);
-               req.cookies.set('user',JSON.stringify({
-                    userId: userInfo._id,
-                    username: encodeURI(userInfo.username),
-               }))
-                res.json({
-                    success: true,
-                    userInfo: {
+                
+                
+                userInfo.lastLoginAt = userInfo.thisLoginAt;
+                userInfo.thisLoginAt= Date.now();
+                userInfo.justTime = new Date(Date.now() - userInfo.lastLoginAt).getTime();
+                
+                userInfo.save(function(err, _userInfo) {
+                    req.cookies.set('user',JSON.stringify({
                         userId: userInfo._id,
-                        username: userInfo.username
-                    }
+                        username: encodeURI(_userInfo.username),
+                        justTime: _userInfo.justTime
+                    }))
+                    res.json({
+                        success: true,
+                        userInfo: {
+                            userId: userInfo._id,
+                            username: userInfo.username
+                        }
+                    })
                 })
             } else {
                 res.json({success:false,msg:'密码不正确'})
