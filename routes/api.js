@@ -52,7 +52,7 @@ router.post('/login', function(req, res, next) {
                 console.log(userInfo);
                req.cookies.set('user',JSON.stringify({
                     userId: userInfo._id,
-                    username: encodeURI(resUser.username),
+                    username: encodeURI(userInfo.username),
                }))
                 res.json({
                     success: true,

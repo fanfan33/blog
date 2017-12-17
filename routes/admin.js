@@ -7,7 +7,7 @@ var Content = require('../models/content')
 
 router.use(function (req, res, next) {
   if (!req.user.isAdmin) {
-    res.send('你不是管理员哦');
+    res.send('not administrator gaga');
     return;
   }
   next();
