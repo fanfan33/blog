@@ -81,7 +81,7 @@ router.post('/login', function(req, res, next) {
 
 router.post('/commentAdd', function(req, res) {
     var comInfo = req.body.comment;
-    
+    console.log(comInfo)
     var endIndex = 15;
     var randomNum = Math.round(Math.random()*(endIndex-1)+1);
     var headIcon = 0;

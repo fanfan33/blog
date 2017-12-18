@@ -1,4 +1,8 @@
 <% include ../include/header.ejs %>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/emojione/1.5.2/assets/sprites/emojione.sprites.css">    
+    <link rel="stylesheet" href="/emoji/emojionearea.min.css">
+    <script src="/emoji/emojionearea.min.js"></script>       
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/1.5.2/lib/js/emojione.min.js"></script>     
     <style>
         ul>li {
             display: inline;
@@ -117,6 +121,11 @@
         </div>
     </div>
     <script>
+        //emoji初始
+        $("#txt").emojioneArea({
+            autoHideFilters: true
+        });
+
         $('.reply a').click(function(){
             var cid = $(this).data('cid');
             var tid = $(this).data('tid');
@@ -152,7 +161,7 @@
                 email: $('#email').val()
             }
             window.sessionStorage.setItem('userbase', JSON.stringify(obj));
-            $(this).attr('disabled', true);
+            // $(this).attr('disabled', true);
         })
         if (window.sessionStorage.getItem('userbase')) {
             var _obj = JSON.parse(window.sessionStorage.getItem('userbase'));
